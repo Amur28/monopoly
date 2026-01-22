@@ -138,6 +138,11 @@ class MonopolyGame {
         const playerCount = parseInt(document.getElementById('playerCount').value);
         const playersSetup = document.getElementById('playersSetup');
         
+        if (!playersSetup) {
+            console.error('Players setup container not found');
+            return;
+        }
+        
         playersSetup.innerHTML = '';
         
         const pieces = ['🚗', '🚙', '🚕', '🚐'];
@@ -171,17 +176,34 @@ class MonopolyGame {
     }
     
     startNewGame() {
+        const playerCountElement = document.getElementById('playerCount');
+        const turnTimeElement = document.getElementById('turnTime');
+        const startingMoneyElement = document.getElementById('startingMoney');
+        
+        if (!playerCountElement || !turnTimeElement || !startingMoneyElement) {
+            console.error('Game setup elements not found');
+            return;
+        }
+        
         // Сохранение настроек
-        this.gameSettings.playerCount = parseInt(document.getElementById('playerCount').value);
-        this.gameSettings.turnTime = parseInt(document.getElementById('turnTime').value);
-        this.gameSettings.startingMoney = parseInt(document.getElementById('startingMoney').value);
+        this.gameSettings.playerCount = parseInt(playerCountElement.value);
+        this.gameSettings.turnTime = parseInt(turnTimeElement.value);
+        this.gameSettings.startingMoney = parseInt(startingMoneyElement.value);
         
         // Создание игроков
         this.players = {};
         for (let i = 1; i <= this.gameSettings.playerCount; i++) {
-            const name = document.getElementById(`playerName${i}`).value;
-            const piece = document.getElementById(`playerPiece${i}`).value;
+            const nameElement = document.getElementById(`playerName${i}`);
+            const pieceElement = document.getElementById(`playerPiece${i}`);
             const pieceOption = document.querySelector(`#playerPiece${i} option:selected`);
+            
+            if (!nameElement || !pieceElement || !pieceOption) {
+                console.error(`Player ${i} elements not found`);
+                return;
+            }
+            
+            const name = nameElement.value;
+            const piece = pieceElement.value;
             const color = pieceOption.dataset.color;
             
             this.players[i] = {
@@ -228,6 +250,11 @@ class MonopolyGame {
     
     renderPlayers() {
         const playersContainer = document.querySelector('.game-info .players');
+        if (!playersContainer) {
+            console.error('Players container not found');
+            return;
+        }
+        
         playersContainer.innerHTML = '';
         
         Object.keys(this.players).forEach(playerId => {
@@ -254,12 +281,16 @@ class MonopolyGame {
             const playerElement = document.getElementById('player' + playerId);
             if (playerElement) {
                 const moneyElement = playerElement.querySelector('.player-money');
-                moneyElement.textContent = player.money + '₽';
+                if (moneyElement) {
+                    moneyElement.textContent = player.money + '₽';
+                }
                 
                 // Подсветка текущего игрока
                 playerElement.style.border = playerId == this.currentPlayer ? '3px solid #f39c12' : 'none';
                 playerElement.style.borderRadius = '10px';
                 playerElement.style.padding = playerId == this.currentPlayer ? '5px' : '15px';
+            } else {
+                console.warn('Player element not found:', playerId);
             }
         });
     }
@@ -267,9 +298,16 @@ class MonopolyGame {
     rollDice() {
         if (this.isRolling) return;
         
-        this.isRolling = true;
         const dice1Element = document.getElementById('dice1');
         const dice2Element = document.getElementById('dice2');
+        const diceResultElement = document.getElementById('diceResult');
+        
+        if (!dice1Element || !dice2Element || !diceResultElement) {
+            console.error('Dice elements not found');
+            return;
+        }
+        
+        this.isRolling = true;
         
         // Добавляем анимацию
         dice1Element.classList.add('rolling');
@@ -295,7 +333,7 @@ class MonopolyGame {
                 dice1Element.classList.remove('rolling');
                 dice2Element.classList.remove('rolling');
                 
-                document.getElementById('diceResult').textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
+                diceResultElement.textContent = `🎲 ${dice1} + ${dice2} = ${total}`;
                 
                 this.movePlayer(total);
                 this.isRolling = false;
@@ -375,6 +413,11 @@ class MonopolyGame {
         const timerElement = document.getElementById('turnTimer');
         const timerValueElement = document.getElementById('timerValue');
         
+        if (!timerElement || !timerValueElement) {
+            console.error('Timer elements not found');
+            return;
+        }
+        
         timerElement.style.display = 'block';
         timerValueElement.textContent = this.timeLeft;
         
@@ -397,7 +440,10 @@ class MonopolyGame {
             clearInterval(this.timerInterval);
             this.timerInterval = null;
         }
-        document.getElementById('turnTimer').style.display = 'none';
+        const timerElement = document.getElementById('turnTimer');
+        if (timerElement) {
+            timerElement.style.display = 'none';
+        }
     }
     
     exitGame() {
@@ -413,6 +459,10 @@ class MonopolyGame {
     
     renderEditorBoard() {
         const boardContainer = document.querySelector('.field-editor-page .board-container');
+        if (!boardContainer) {
+            console.error('Board container not found in field editor');
+            return;
+        }
         boardContainer.innerHTML = '';
         
         // Создаем структуру поля
@@ -488,6 +538,8 @@ class MonopolyGame {
                 const fieldData = this.fields.find(f => f.id === position);
                 if (fieldData) {
                     this.showFieldActionModal(fieldData);
+                } else {
+                    console.warn('Field data not found for position:', position);
                 }
             });
         });
@@ -497,6 +549,13 @@ class MonopolyGame {
         this.selectedField = field;
         
         const fieldInfo = document.getElementById('fieldInfo');
+        const fieldActionModal = document.getElementById('fieldActionModal');
+        
+        if (!fieldInfo || !fieldActionModal) {
+            console.error('Field action modal elements not found');
+            return;
+        }
+        
         fieldInfo.innerHTML = `
             <h4>${field.name}</h4>
             <p><strong>Тип:</strong> ${this.getFieldTypeName(field.type)}</p>
@@ -504,7 +563,7 @@ class MonopolyGame {
             <p><strong>Цвет:</strong> <span style="display: inline-block; width: 20px; height: 20px; background: ${field.color}; border-radius: 3px; vertical-align: middle;"></span> ${field.color}</p>
         `;
         
-        document.getElementById('fieldActionModal').classList.add('show');
+        fieldActionModal.classList.add('show');
     }
     
     getFieldTypeName(type) {
@@ -521,36 +580,64 @@ class MonopolyGame {
     }
     
     closeFieldActionModal() {
-        document.getElementById('fieldActionModal').classList.remove('show');
+        const fieldActionModal = document.getElementById('fieldActionModal');
+        if (fieldActionModal) {
+            fieldActionModal.classList.remove('show');
+        }
         this.selectedField = null;
     }
     
     showFieldEditForm() {
         if (!this.selectedField) return;
         
-        document.getElementById('fieldEditTitle').textContent = 
+        const fieldEditTitle = document.getElementById('fieldEditTitle');
+        const fieldName = document.getElementById('fieldName');
+        const fieldType = document.getElementById('fieldType');
+        const fieldPrice = document.getElementById('fieldPrice');
+        const fieldColor = document.getElementById('fieldColor');
+        const fieldEditModal = document.getElementById('fieldEditModal');
+        
+        if (!fieldEditTitle || !fieldName || !fieldType || !fieldPrice || !fieldColor || !fieldEditModal) {
+            console.error('Field edit modal elements not found');
+            return;
+        }
+        
+        fieldEditTitle.textContent = 
             this.selectedField.name ? 'Редактирование поля' : 'Создание поля';
         
-        document.getElementById('fieldName').value = this.selectedField.name || '';
-        document.getElementById('fieldType').value = this.selectedField.type || 'property';
-        document.getElementById('fieldPrice').value = this.selectedField.price || 0;
-        document.getElementById('fieldColor').value = this.selectedField.color || '#000000';
+        fieldName.value = this.selectedField.name || '';
+        fieldType.value = this.selectedField.type || 'property';
+        fieldPrice.value = this.selectedField.price || 0;
+        fieldColor.value = this.selectedField.color || '#000000';
         
         this.closeFieldActionModal();
-        document.getElementById('fieldEditModal').classList.add('show');
+        fieldEditModal.classList.add('show');
     }
     
     closeFieldEditModal() {
-        document.getElementById('fieldEditModal').classList.remove('show');
+        const fieldEditModal = document.getElementById('fieldEditModal');
+        if (fieldEditModal) {
+            fieldEditModal.classList.remove('show');
+        }
     }
     
     saveField() {
         if (!this.selectedField) return;
         
-        const name = document.getElementById('fieldName').value;
-        const type = document.getElementById('fieldType').value;
-        const price = parseInt(document.getElementById('fieldPrice').value) || 0;
-        const color = document.getElementById('fieldColor').value;
+        const fieldName = document.getElementById('fieldName');
+        const fieldType = document.getElementById('fieldType');
+        const fieldPrice = document.getElementById('fieldPrice');
+        const fieldColor = document.getElementById('fieldColor');
+        
+        if (!fieldName || !fieldType || !fieldPrice || !fieldColor) {
+            console.error('Field edit form elements not found');
+            return;
+        }
+        
+        const name = fieldName.value;
+        const type = fieldType.value;
+        const price = parseInt(fieldPrice.value) || 0;
+        const color = fieldColor.value;
         
         const fieldIndex = this.fields.findIndex(f => f.id === this.selectedField.id);
         if (fieldIndex !== -1) {
