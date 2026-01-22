@@ -10,6 +10,7 @@ class MonopolyGame {
         this.currentPlayer = 1;
         this.fields = this.initializeFields();
         this.selectedField = null;
+        this.selectedProperty = null;
         this.isRolling = false;
         this.timerInterval = null;
         this.timeLeft = 30;
@@ -85,10 +86,24 @@ class MonopolyGame {
         // Модальные окна
         document.getElementById('closeFieldAction').addEventListener('click', () => this.closeFieldActionModal());
         document.getElementById('closeFieldEdit').addEventListener('click', () => this.closeFieldEditModal());
-        document.getElementById('editFieldBtn').addEventListener('click', () => this.showFieldEditForm());
+        
+        // Кнопка "Изменить поле" - добавляем проверку
+        const editFieldBtn = document.getElementById('editFieldBtn');
+        if (editFieldBtn) {
+            editFieldBtn.addEventListener('click', () => {
+                console.log('Edit field button clicked');
+                this.showFieldEditForm();
+            });
+        }
+        
         document.getElementById('deleteFieldBtn').addEventListener('click', () => this.deleteField());
         document.getElementById('saveFieldBtn').addEventListener('click', () => this.saveField());
         document.getElementById('cancelFieldEditBtn').addEventListener('click', () => this.closeFieldEditModal());
+        
+        // Модальное окно покупки
+        document.getElementById('closeBuyProperty').addEventListener('click', () => this.closeBuyPropertyModal());
+        document.getElementById('buyPropertyBtn').addEventListener('click', () => this.buyProperty());
+        document.getElementById('skipBuyBtn').addEventListener('click', () => this.skipBuyProperty());
         
         // Закрытие модальных окон по клику вне их
         window.addEventListener('click', (e) => {
@@ -293,6 +308,38 @@ class MonopolyGame {
                 console.warn('Player element not found:', playerId);
             }
         });
+        
+        // Обновляем фигурки на полях
+        this.updateFieldPieces();
+    }
+    
+    updateFieldPieces() {
+        // Сначала очищаем все фигурки с полей
+        document.querySelectorAll('.field-pieces').forEach(container => {
+            container.remove();
+        });
+        
+        // Добавляем фигурки игроков на их позиции
+        Object.keys(this.players).forEach(playerId => {
+            const player = this.players[playerId];
+            const fieldElement = document.querySelector(`[data-position="${player.position}"]`);
+            
+            if (fieldElement) {
+                let piecesContainer = fieldElement.querySelector('.field-pieces');
+                if (!piecesContainer) {
+                    piecesContainer = document.createElement('div');
+                    piecesContainer.className = 'field-pieces';
+                    fieldElement.appendChild(piecesContainer);
+                }
+                
+                const pieceElement = document.createElement('div');
+                pieceElement.className = 'field-piece';
+                pieceElement.style.background = player.color;
+                pieceElement.textContent = player.piece;
+                pieceElement.title = player.name;
+                piecesContainer.appendChild(pieceElement);
+            }
+        });
     }
     
     rollDice() {
@@ -356,14 +403,16 @@ class MonopolyGame {
             if (player.position === 0) {
                 player.money += 400;
                 this.showMessage(`${player.name} прошел СТАРТ и получил 400₽`);
+                this.updatePlayerDisplay();
+                // Смена игрока после получения денег
+                this.currentPlayer = (this.currentPlayer % this.gameSettings.playerCount) + 1;
+                this.updatePlayerDisplay();
+                this.startTurnTimer();
+            } else {
+                this.updatePlayerDisplay();
+                this.handleFieldAction(player.position);
+                // Не меняем игрока здесь - это сделается в continueTurn после покупки/пропуска
             }
-            
-            this.updatePlayerDisplay();
-            this.handleFieldAction(player.position);
-            
-            // Смена игрока
-            this.currentPlayer = (this.currentPlayer % this.gameSettings.playerCount) + 1;
-            this.startTurnTimer();
         });
     }
     
@@ -388,20 +437,30 @@ class MonopolyGame {
             case 'railroad':
             case 'utility':
                 if (!player.properties.includes(position)) {
-                    this.showMessage(`${player.name} может купить ${field.name} за ${field.price}₽`);
+                    // Показываем модальное окно покупки
+                    this.showBuyPropertyModal(field, player);
+                } else {
+                    this.showMessage(`${player.name} уже владеет ${field.name}`);
+                    this.updatePlayerDisplay();
+                    // Продолжаем игру
+                    this.continueTurn();
                 }
                 break;
             case 'tax':
                 player.money -= field.price;
                 this.showMessage(`${player.name} заплатил налог ${field.price}₽`);
+                this.updatePlayerDisplay();
+                // Продолжаем игру
+                this.continueTurn();
                 break;
             case 'chance':
             case 'community':
                 this.showMessage(`${player.name} попал на ${field.name}`);
+                this.updatePlayerDisplay();
+                // Продолжаем игру
+                this.continueTurn();
                 break;
         }
-        
-        this.updatePlayerDisplay();
     }
     
     startTurnTimer() {
@@ -733,6 +792,80 @@ class MonopolyGame {
         setTimeout(() => {
             document.body.removeChild(messageDiv);
         }, 3000);
+    }
+    
+    showBuyPropertyModal(field, player) {
+        this.selectedProperty = field;
+        
+        const propertyInfo = document.getElementById('propertyInfo');
+        const buyPropertyModal = document.getElementById('buyPropertyModal');
+        
+        if (!propertyInfo || !buyPropertyModal) {
+            console.error('Buy property modal elements not found');
+            return;
+        }
+        
+        const canAfford = player.money >= field.price;
+        
+        propertyInfo.innerHTML = `
+            <h4>${field.name}</h4>
+            <p><strong>Стоимость:</strong> ${field.price}₽</p>
+            <p><strong>Тип:</strong> ${this.getFieldTypeName(field.type)}</p>
+            <p><strong>Цвет:</strong> <span style="display: inline-block; width: 20px; height: 20px; background: ${field.color}; border-radius: 3px; vertical-align: middle;"></span></p>
+            <p><strong>Ваши деньги:</strong> ${player.money}₽</p>
+            ${!canAfford ? '<p style="color: red; font-weight: bold;">Недостаточно средств для покупки!</p>' : ''}
+        `;
+        
+        // Блокируем/разблокируем кнопку покупки
+        const buyBtn = document.getElementById('buyPropertyBtn');
+        buyBtn.disabled = !canAfford;
+        buyBtn.style.opacity = canAfford ? '1' : '0.5';
+        buyBtn.style.cursor = canAfford ? 'pointer' : 'not-allowed';
+        
+        buyPropertyModal.classList.add('show');
+    }
+    
+    closeBuyPropertyModal() {
+        const buyPropertyModal = document.getElementById('buyPropertyModal');
+        if (buyPropertyModal) {
+            buyPropertyModal.classList.remove('show');
+        }
+        this.selectedProperty = null;
+        
+        // Продолжаем игру после закрытия модального окна
+        this.continueTurn();
+    }
+    
+    buyProperty() {
+        if (!this.selectedProperty) return;
+        
+        const player = this.players[this.currentPlayer];
+        
+        if (player.money >= this.selectedProperty.price) {
+            player.money -= this.selectedProperty.price;
+            player.properties.push(this.selectedProperty.id);
+            
+            this.showMessage(`${player.name} купил ${this.selectedProperty.name} за ${this.selectedProperty.price}₽`);
+            this.updatePlayerDisplay();
+        }
+        
+        this.closeBuyPropertyModal();
+    }
+    
+    skipBuyProperty() {
+        if (this.selectedProperty) {
+            const player = this.players[this.currentPlayer];
+            this.showMessage(`${player.name} отказался от покупки ${this.selectedProperty.name}`);
+        }
+        
+        this.closeBuyPropertyModal();
+    }
+    
+    continueTurn() {
+        // Смена игрока
+        this.currentPlayer = (this.currentPlayer % this.gameSettings.playerCount) + 1;
+        this.updatePlayerDisplay();
+        this.startTurnTimer();
     }
 }
 

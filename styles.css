@@ -411,6 +411,27 @@ body {
     font-size: 0.7em;
 }
 
+.field-pieces {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: flex;
+    gap: 2px;
+    z-index: 5;
+}
+
+.field-piece {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid white;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
 .field:hover {
     transform: scale(1.05);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -436,6 +457,23 @@ body {
     font-size: 1.5em;
     color: #666;
     font-weight: bold;
+}
+
+.property-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.property-info h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.property-info p {
+    margin: 5px 0;
+    color: #666;
 }
 
 .field-color {
