@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Монополия</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Начальная страница -->
+        <section id="landingPage" class="landing-page">
+            <div class="landing-content">
+                <h1 class="game-title">🎲 Там-Сям-Лям</h1>
+                <p class="game-subtitle">Классическая экономическая игра</p>
+                
+                <div class="action-buttons">
+                    <button id="newGameBtn" class="action-btn primary">
+                        <span class="btn-icon">🎮</span>
+                        <span class="btn-text">Новая игра</span>
+                    </button>
+                    <button id="editFieldBtn" class="action-btn secondary">
+                        <span class="btn-icon">⚙️</span>
+                        <span class="btn-text">Настройка игрового поля</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Настройка новой игры -->
+        <section id="gameSetupPage" class="game-setup-page hidden">
+            <div class="setup-container">
+                <header class="setup-header">
+                    <h2>Настройка новой игры</h2>
+                    <button id="backToLanding" class="back-btn">← Назад</button>
+                </header>
+                
+                <div class="setup-content">
+                    <div class="setup-section">
+                        <h3>Основные настройки</h3>
+                        <div class="form-group">
+                            <label for="playerCount">Количество игроков:</label>
+                            <select id="playerCount">
+                                <option value="2">2 игрока</option>
+                                <option value="3">3 игрока</option>
+                                <option value="4">4 игрока</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="turnTime">Время на ход (секунды):</label>
+                            <input type="number" id="turnTime" min="10" max="120" value="30">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="startingMoney">Начальная сумма (₽):</label>
+                            <input type="number" id="startingMoney" min="500" max="5000" step="100" value="1500">
+                        </div>
+                    </div>
+                    
+                    <div class="setup-section">
+                        <h3>Игроки</h3>
+                        <div id="playersSetup" class="players-setup">
+                            <!-- Динамически генерируется -->
+                        </div>
+                    </div>
+                    
+                    <div class="setup-actions">
+                        <button id="startGameBtn" class="btn btn-save">Начать игру</button>
+                        <button id="cancelSetupBtn" class="btn btn-cancel">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Игровое поле -->
+        <section id="gamePage" class="game-page hidden">
+            <div class="game-header">
+                <h1>Монополия</h1>
+                <div class="game-controls">
+                    <button id="pauseGameBtn" class="control-btn">⏸️ Пауза</button>
+                    <button id="exitGameBtn" class="control-btn">🏠 Выход</button>
+                </div>
+            </div>
+            
+            <div class="game-board">
+                <div class="board-container">
+                    <!-- Верхняя сторона -->
+                    <div class="board-side top">
+                        <div class="corner go">СТАРТ</div>
+                        <div class="field" data-position="1">
+                            <div class="field-color" style="background: #8B4513;"></div>
+                            <div class="field-name">Московская ул.</div>
+                            <div class="field-price">60₽</div>
+                        </div>
+                        <div class="field" data-position="2">
+                            <div class="field-color" style="background: #87CEEB;"></div>
+                            <div class="field-name">Общественная казна</div>
+                        </div>
+                        <div class="field" data-position="3">
+                            <div class="field-color" style="background: #8B4513;"></div>
+                            <div class="field-name">Тверская ул.</div>
+                            <div class="field-price">60₽</div>
+                        </div>
+                        <div class="field" data-position="4">
+                            <div class="field-color" style="background: #FFD700;"></div>
+                            <div class="field-name">Налог</div>
+                            <div class="field-price">200₽</div>
+                        </div>
+                        <div class="field" data-position="5">
+                            <div class="field-color" style="background: #FF6347;"></div>
+                            <div class="field-name">Рижский вокзал</div>
+                            <div class="field-price">200₽</div>
+                        </div>
+                        <div class="field" data-position="6">
+                            <div class="field-color" style="background: #FFA500;"></div>
+                            <div class="field-name">Арбатская ул.</div>
+                            <div class="field-price">100₽</div>
+                        </div>
+                        <div class="field" data-position="7">
+                            <div class="field-color" style="background: #87CEEB;"></div>
+                            <div class="field-name">Шанс</div>
+                        </div>
+                        <div class="field" data-position="8">
+                            <div class="field-color" style="background: #FFA500;"></div>
+                            <div class="field-name">Смоленская ул.</div>
+                            <div class="field-price">100₽</div>
+                        </div>
+                        <div class="field" data-position="9">
+                            <div class="field-color" style="background: #FFA500;"></div>
+                            <div class="field-name">Кутузовский просп.</div>
+                            <div class="field-price">120₽</div>
+                        </div>
+                        <div class="corner jail">Тюрьма</div>
+                    </div>
+
+                    <!-- Правая сторона -->
+                    <div class="board-side right">
+                        <div class="field" data-position="11">
+                            <div class="field-color" style="background: #FF1493;"></div>
+                            <div class="field-name">Краснопресненская</div>
+                            <div class="field-price">140₽</div>
+                        </div>
+                        <div class="field" data-position="12">
+                            <div class="field-color" style="background: #87CEEB;"></div>
+                            <div class="field-name">Электростанция</div>
+                            <div class="field-price">150₽</div>
+                        </div>
+                        <div class="field" data-position="13">
+                            <div class="field-color" style="background: #FF1493;"></div>
+                            <div class="field-name">Пушкинская ул.</div>
+                            <div class="field-price">140₽</div>
+                        </div>
+                        <div class="field" data-position="14">
+                            <div class="field-color" style="background: #FF1493;"></div>
+                            <div class="field-name">Тверская бульв.</div>
+                            <div class="field-price">160₽</div>
+                        </div>
+                        <div class="field" data-position="15">
+                            <div class="field-color" style="background: #FFD700;"></div>
+                            <div class="field-name">Павелецкий вокзал</div>
+                            <div class="field-price">200₽</div>
+                        </div>
+                        <div class="field" data-position="16">
+                            <div class="field-color" style="background: #32CD32;"></div>
+                            <div class="field-name">Пречистенская</div>
+                            <div class="field-price">180₽</div>
+                        </div>
+                        <div class="field" data-position="17">
+                            <div class="field-color" style="background: #87CEEB;"></div>
+                            <div class="field-name">Общественная казна</div>
+                        </div>
+                        <div class="field" data-position="18">
+                            <div class="field-color" style="background: #32CD32;"></div>
+                            <div class="field-name">Остоженка</div>
+                            <div class="field-price">180₽</div>
+                        </div>
+                        <div class="field" data-position="19">
+                            <div class="field-color" style="background: #32CD32;"></div>
+                            <div class="field-name">Хамовники</div>
+                            <div class="field-price">200₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Нижняя сторона -->
+                    <div class="board-side bottom">
+                        <div class="corner free-parking">Бесплатная стоянка</div>
+                        <div class="field" data-position="21">
+                            <div class="field-color" style="background: #4169E1;"></div>
+                            <div class="field-name">Ленинградский просп.</div>
+                            <div class="field-price">220₽</div>
+                        </div>
+                        <div class="field" data-position="22">
+                            <div class="field-color" style="background: #87CEEB;"></div>
+                            <div class="field-name">Шанс</div>
+                        </div>
+                        <div class="field" data-position="23">
+                            <div class="field-color" style="background: #4169E1;"></div>
+                            <div class="field-name">Новинский бульв.</div>
+                            <div class="field-price">220₽</div>
+                        </div>
+                        <div class="field" data-position="24">
+                            <div class="field-color" style="background: #4169E1;"></div>
+                            <div class="field-name">Садовое кольцо</div>
+                            <div class="field-price">240₽</div>
+                        </div>
+                        <div class="field" data-position="25">
+                            <div class="field-color" style="background: #FFD700;"></div>
+                            <div class="field-name">Курский вокзал</div>
+                            <div class="field-price">200₽</div>
+                        </div>
+                        <div class="field" data-position="26">
+                            <div class="field-color" style="background: #9370DB;"></div>
+                            <div class="field-name">Полянка</div>
+                            <div class="field-price">260₽</div>
+                        </div>
+                        <div class="field" data-position="27">
+                            <div class="field-color" style="background: #4169E1;"></div>
+                            <div class="field-name">Серпуховская</div>
+                            <div class="field-price">260₽</div>
+                        </div>
+                        <div class="field" data-position="28">
+                            <div class="field-color" style="background: #9370DB;"></div>
+                            <div class="field-name">Тульская</div>
+                            <div class="field-price">280₽</div>
+                        </div>
+                        <div class="corner go-to-jail">В тюрьму</div>
+                    </div>
+
+                    <!-- Левая сторона -->
+                    <div class="board-side left">
+                        <div class="field" data-position="31">
+                            <div class="field-color" style="background: #FF8C00;"></div>
+                            <div class="field-name">Нагатинская</div>
+                            <div class="field-price">300₽</div>
+                        </div>
+                        <div class="field" data-position="32">
+                            <div class="field-color" style="background: #9370DB;"></div>
+                            <div class="field-name">Шаболовская</div>
+                            <div class="field-price">300₽</div>
+                        </div>
+                        <div class="field" data-position="33">
+                            <div class="field-color" style="background: #87CEEB;"></div>
+                            <div class="field-name">Общественная казна</div>
+                        </div>
+                        <div class="field" data-position="34">
+                            <div class="field-color" style="background: #9370DB;"></div>
+                            <div class="field-name">Ленинский просп.</div>
+                            <div class="field-price">320₽</div>
+                        </div>
+                        <div class="field" data-position="35">
+                            <div class="field-color" style="background: #FFD700;"></div>
+                            <div class="field-name">Савеловский вокзал</div>
+                            <div class="field-price">200₽</div>
+                        </div>
+                        <div class="field" data-position="36">
+                            <div class="field-color" style="background: #00CED1;"></div>
+                            <div class="field-name">Водопровод</div>
+                            <div class="field-price">150₽</div>
+                        </div>
+                        <div class="field" data-position="37">
+                            <div class="field-color" style="background: #00CED1;"></div>
+                            <div class="field-name">Профсоюзная</div>
+                            <div class="field-price">350₽</div>
+                        </div>
+                        <div class="field" data-position="38">
+                            <div class="field-color" style="background: #87CEEB;"></div>
+                            <div class="field-name">Шанс</div>
+                        </div>
+                        <div class="field" data-position="39">
+                            <div class="field-color" style="background: #00CED1;"></div>
+                            <div class="field-name">Воробьевы горы</div>
+                            <div class="field-price">400₽</div>
+                        </div>
+                    </div>
+
+                    <!-- Центр -->
+                    <div class="board-center">
+                        <div class="game-info">
+                            <div class="players">
+                                <!-- Динамически генерируется -->
+                            </div>
+                            <div class="game-controls">
+                                <button id="rollDice" class="dice-btn">🎲 Бросить кубик</button>
+                                <div id="diceContainer" class="dice-container">
+                                    <div class="dice" id="dice1">⚀</div>
+                                    <div class="dice" id="dice2">⚀</div>
+                                </div>
+                                <div id="diceResult" class="dice-result"></div>
+                                <div id="turnTimer" class="turn-timer" style="display: none;">
+                                    <span class="timer-label">Время хода:</span>
+                                    <span id="timerValue">30</span>с
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Редактор поля -->
+        <section id="fieldEditorPage" class="field-editor-page hidden">
+            <div class="editor-header">
+                <h2>Редактор игрового поля</h2>
+                <button id="backToLandingFromEditor" class="back-btn">← Назад</button>
+            </div>
+            
+            <div class="editor-board">
+                <div class="board-container">
+                    <!-- Поля генерируются динамически -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Модальное окно действий с полем -->
+    <div id="fieldActionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Действия с полем</h3>
+                <button class="close-btn" id="closeFieldAction">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="fieldInfo" class="field-info">
+                    <!-- Информация о поле -->
+                </div>
+                <div class="action-buttons">
+                    <button id="editFieldBtn" class="btn btn-primary">📝 Изменить поле</button>
+                    <button id="deleteFieldBtn" class="btn btn-delete">🗑️ Удалить поле</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования поля -->
+    <div id="fieldEditModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="fieldEditTitle">Редактирование поля</h3>
+                <button class="close-btn" id="closeFieldEdit">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="fieldEditForm">
+                    <div class="form-group">
+                        <label for="fieldName">Название поля:</label>
+                        <input type="text" id="fieldName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldType">Тип поля:</label>
+                        <select id="fieldType">
+                            <option value="property">Недвижимость</option>
+                            <option value="railroad">Вокзал</option>
+                            <option value="utility">Коммунальная служба</option>
+                            <option value="tax">Налог</option>
+                            <option value="chance">Шанс</option>
+                            <option value="community">Общественная казна</option>
+                            <option value="corner">Особое поле</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldPrice">Стоимость (₽):</label>
+                        <input type="number" id="fieldPrice" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldColor">Цвет:</label>
+                        <input type="color" id="fieldColor" class="color-input">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="saveFieldBtn" class="btn btn-save">Сохранить</button>
+                <button id="cancelFieldEditBtn" class="btn btn-cancel">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
