@@ -417,6 +417,27 @@ body {
     z-index: 10;
 }
 
+.deleted-field {
+    background: #f8f9fa !important;
+    border: 2px dashed #999 !important;
+    cursor: pointer !important;
+    opacity: 0.7;
+}
+
+.deleted-field:hover {
+    opacity: 1;
+    background: #e9ecef !important;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.deleted-field .field-name {
+    font-size: 1.5em;
+    color: #666;
+    font-weight: bold;
+}
+
 .field-color {
     height: 8px;
     border-radius: 2px;

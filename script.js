@@ -19,45 +19,45 @@ class MonopolyGame {
     
     initializeFields() {
         return [
-            { id: 0, name: 'СТАРТ', type: 'corner', color: '#27ae60' },
-            { id: 1, name: 'Московская ул.', type: 'property', price: 60, color: '#8B4513' },
-            { id: 2, name: 'Общественная казна', type: 'community', color: '#87CEEB' },
-            { id: 3, name: 'Тверская ул.', type: 'property', price: 60, color: '#8B4513' },
-            { id: 4, name: 'Налог', type: 'tax', price: 200, color: '#FFD700' },
-            { id: 5, name: 'Рижский вокзал', type: 'railroad', price: 200, color: '#FF6347' },
-            { id: 6, name: 'Арбатская ул.', type: 'property', price: 100, color: '#FFA500' },
-            { id: 7, name: 'Шанс', type: 'chance', color: '#87CEEB' },
-            { id: 8, name: 'Смоленская ул.', type: 'property', price: 100, color: '#FFA500' },
-            { id: 9, name: 'Кутузовский просп.', type: 'property', price: 120, color: '#FFA500' },
-            { id: 10, name: 'Тюрьма', type: 'corner', color: '#e74c3c' },
-            { id: 11, name: 'Краснопресненская', type: 'property', price: 140, color: '#FF1493' },
-            { id: 12, name: 'Электростанция', type: 'utility', price: 150, color: '#87CEEB' },
-            { id: 13, name: 'Пушкинская ул.', type: 'property', price: 140, color: '#FF1493' },
-            { id: 14, name: 'Тверская бульв.', type: 'property', price: 160, color: '#FF1493' },
-            { id: 15, name: 'Павелецкий вокзал', type: 'railroad', price: 200, color: '#FFD700' },
-            { id: 16, name: 'Пречистенская', type: 'property', price: 180, color: '#32CD32' },
-            { id: 17, name: 'Общественная казна', type: 'community', color: '#87CEEB' },
-            { id: 18, name: 'Остоженка', type: 'property', price: 180, color: '#32CD32' },
-            { id: 19, name: 'Хамовники', type: 'property', price: 200, color: '#32CD32' },
-            { id: 20, name: 'Бесплатная стоянка', type: 'corner', color: '#3498db' },
-            { id: 21, name: 'Ленинградский просп.', type: 'property', price: 220, color: '#4169E1' },
-            { id: 22, name: 'Шанс', type: 'chance', color: '#87CEEB' },
-            { id: 23, name: 'Новинский бульв.', type: 'property', price: 220, color: '#4169E1' },
-            { id: 24, name: 'Садовое кольцо', type: 'property', price: 240, color: '#4169E1' },
-            { id: 25, name: 'Курский вокзал', type: 'railroad', price: 200, color: '#FFD700' },
-            { id: 26, name: 'Полянка', type: 'property', price: 260, color: '#9370DB' },
-            { id: 27, name: 'Серпуховская', type: 'property', price: 260, color: '#4169E1' },
-            { id: 28, name: 'Тульская', type: 'property', price: 280, color: '#9370DB' },
-            { id: 29, name: 'В тюрьму', type: 'corner', color: '#9b59b6' },
-            { id: 31, name: 'Нагатинская', type: 'property', price: 300, color: '#FF8C00' },
-            { id: 32, name: 'Шаболовская', type: 'property', price: 300, color: '#9370DB' },
-            { id: 33, name: 'Общественная казна', type: 'community', color: '#87CEEB' },
-            { id: 34, name: 'Ленинский просп.', type: 'property', price: 320, color: '#9370DB' },
-            { id: 35, name: 'Савеловский вокзал', type: 'railroad', price: 200, color: '#FFD700' },
-            { id: 36, name: 'Водопровод', type: 'utility', price: 150, color: '#00CED1' },
-            { id: 37, name: 'Профсоюзная', type: 'property', price: 350, color: '#00CED1' },
-            { id: 38, name: 'Шанс', type: 'chance', color: '#87CEEB' },
-            { id: 39, name: 'Воробьевы горы', type: 'property', price: 400, color: '#00CED1' }
+            { id: 0, name: 'СТАРТ', type: 'corner', color: '#27ae60', deleted: false },
+            { id: 1, name: 'Московская ул.', type: 'property', price: 60, color: '#8B4513', deleted: false },
+            { id: 2, name: 'Общественная казна', type: 'community', color: '#87CEEB', deleted: false },
+            { id: 3, name: 'Тверская ул.', type: 'property', price: 60, color: '#8B4513', deleted: false },
+            { id: 4, name: 'Налог', type: 'tax', price: 200, color: '#FFD700', deleted: false },
+            { id: 5, name: 'Рижский вокзал', type: 'railroad', price: 200, color: '#FF6347', deleted: false },
+            { id: 6, name: 'Арбатская ул.', type: 'property', price: 100, color: '#FFA500', deleted: false },
+            { id: 7, name: 'Шанс', type: 'chance', color: '#87CEEB', deleted: false },
+            { id: 8, name: 'Смоленская ул.', type: 'property', price: 100, color: '#FFA500', deleted: false },
+            { id: 9, name: 'Кутузовский просп.', type: 'property', price: 120, color: '#FFA500', deleted: false },
+            { id: 10, name: 'Тюрьма', type: 'corner', color: '#e74c3c', deleted: false },
+            { id: 11, name: 'Краснопресненская', type: 'property', price: 140, color: '#FF1493', deleted: false },
+            { id: 12, name: 'Электростанция', type: 'utility', price: 150, color: '#87CEEB', deleted: false },
+            { id: 13, name: 'Пушкинская ул.', type: 'property', price: 140, color: '#FF1493', deleted: false },
+            { id: 14, name: 'Тверская бульв.', type: 'property', price: 160, color: '#FF1493', deleted: false },
+            { id: 15, name: 'Павелецкий вокзал', type: 'railroad', price: 200, color: '#FFD700', deleted: false },
+            { id: 16, name: 'Пречистенская', type: 'property', price: 180, color: '#32CD32', deleted: false },
+            { id: 17, name: 'Общественная казна', type: 'community', color: '#87CEEB', deleted: false },
+            { id: 18, name: 'Остоженка', type: 'property', price: 180, color: '#32CD32', deleted: false },
+            { id: 19, name: 'Хамовники', type: 'property', price: 200, color: '#32CD32', deleted: false },
+            { id: 20, name: 'Бесплатная стоянка', type: 'corner', color: '#3498db', deleted: false },
+            { id: 21, name: 'Ленинградский просп.', type: 'property', price: 220, color: '#4169E1', deleted: false },
+            { id: 22, name: 'Шанс', type: 'chance', color: '#87CEEB', deleted: false },
+            { id: 23, name: 'Новинский бульв.', type: 'property', price: 220, color: '#4169E1', deleted: false },
+            { id: 24, name: 'Садовое кольцо', type: 'property', price: 240, color: '#4169E1', deleted: false },
+            { id: 25, name: 'Курский вокзал', type: 'railroad', price: 200, color: '#FFD700', deleted: false },
+            { id: 26, name: 'Полянка', type: 'property', price: 260, color: '#9370DB', deleted: false },
+            { id: 27, name: 'Серпуховская', type: 'property', price: 260, color: '#4169E1', deleted: false },
+            { id: 28, name: 'Тульская', type: 'property', price: 280, color: '#9370DB', deleted: false },
+            { id: 29, name: 'В тюрьму', type: 'corner', color: '#9b59b6', deleted: false },
+            { id: 31, name: 'Нагатинская', type: 'property', price: 300, color: '#FF8C00', deleted: false },
+            { id: 32, name: 'Шаболовская', type: 'property', price: 300, color: '#9370DB', deleted: false },
+            { id: 33, name: 'Общественная казна', type: 'community', color: '#87CEEB', deleted: false },
+            { id: 34, name: 'Ленинский просп.', type: 'property', price: 320, color: '#9370DB', deleted: false },
+            { id: 35, name: 'Савеловский вокзал', type: 'railroad', price: 200, color: '#FFD700', deleted: false },
+            { id: 36, name: 'Водопровод', type: 'utility', price: 150, color: '#00CED1', deleted: false },
+            { id: 37, name: 'Профсоюзная', type: 'property', price: 350, color: '#00CED1', deleted: false },
+            { id: 38, name: 'Шанс', type: 'chance', color: '#87CEEB', deleted: false },
+            { id: 39, name: 'Воробьевы горы', type: 'property', price: 400, color: '#00CED1', deleted: false }
         ];
     }
     
@@ -195,7 +195,7 @@ class MonopolyGame {
         for (let i = 1; i <= this.gameSettings.playerCount; i++) {
             const nameElement = document.getElementById(`playerName${i}`);
             const pieceElement = document.getElementById(`playerPiece${i}`);
-            const pieceOption = document.querySelector(`#playerPiece${i} option:selected`);
+            const pieceOption = pieceElement.options[pieceElement.selectedIndex];
             
             if (!nameElement || !pieceElement || !pieceOption) {
                 console.error(`Player ${i} elements not found`);
@@ -522,6 +522,16 @@ class MonopolyGame {
     }
     
     createFieldHTML(field) {
+        if (field.deleted) {
+            return `
+                <div class="field deleted-field" data-position="${field.id}">
+                    <div class="field-color" style="background: #cccccc; border: 2px dashed #999;"></div>
+                    <div class="field-name">+</div>
+                    <div class="field-price">Создать поле</div>
+                </div>
+            `;
+        }
+        
         return `
             <div class="field" data-position="${field.id}">
                 <div class="field-color" style="background: ${field.color};"></div>
@@ -536,8 +546,15 @@ class MonopolyGame {
             field.addEventListener('click', (e) => {
                 const position = parseInt(field.dataset.position);
                 const fieldData = this.fields.find(f => f.id === position);
+                
                 if (fieldData) {
-                    this.showFieldActionModal(fieldData);
+                    if (fieldData.deleted) {
+                        // Для удаленных полей сразу открываем форму создания
+                        this.selectedField = fieldData;
+                        this.showFieldEditForm();
+                    } else {
+                        this.showFieldActionModal(fieldData);
+                    }
                 } else {
                     console.warn('Field data not found for position:', position);
                 }
@@ -588,7 +605,11 @@ class MonopolyGame {
     }
     
     showFieldEditForm() {
-        if (!this.selectedField) return;
+        console.log('showFieldEditForm called, selectedField:', this.selectedField);
+        if (!this.selectedField) {
+            console.error('No selected field');
+            return;
+        }
         
         const fieldEditTitle = document.getElementById('fieldEditTitle');
         const fieldName = document.getElementById('fieldName');
@@ -603,7 +624,8 @@ class MonopolyGame {
         }
         
         fieldEditTitle.textContent = 
-            this.selectedField.name ? 'Редактирование поля' : 'Создание поля';
+            this.selectedField.deleted ? 'Создание поля' : 
+            (this.selectedField.name ? 'Редактирование поля' : 'Создание поля');
         
         fieldName.value = this.selectedField.name || '';
         fieldType.value = this.selectedField.type || 'property';
@@ -642,11 +664,12 @@ class MonopolyGame {
         const fieldIndex = this.fields.findIndex(f => f.id === this.selectedField.id);
         if (fieldIndex !== -1) {
             this.fields[fieldIndex] = {
-                ...this.fields[fieldIndex],
+                id: this.selectedField.id,
                 name,
                 type,
                 price,
-                color
+                color,
+                deleted: false
             };
         } else {
             // Создание нового поля
@@ -656,7 +679,8 @@ class MonopolyGame {
                 name,
                 type,
                 price,
-                color
+                color,
+                deleted: false
             });
         }
         
@@ -671,11 +695,20 @@ class MonopolyGame {
         
         const fieldIndex = this.fields.findIndex(f => f.id === this.selectedField.id);
         if (fieldIndex !== -1) {
-            this.fields.splice(fieldIndex, 1);
+            // Помечаем поле как удаленное вместо полного удаления
+            this.fields[fieldIndex] = {
+                id: this.selectedField.id,
+                name: '',
+                type: 'empty',
+                price: 0,
+                color: '#cccccc',
+                deleted: true
+            };
+            
             this.renderEditorBoard();
             this.setupFieldClickHandlers();
             this.closeFieldActionModal();
-            this.showMessage('Поле удалено!');
+            this.showMessage('Поле удалено! Нажмите на пустое место для создания нового поля.');
         }
     }
     
